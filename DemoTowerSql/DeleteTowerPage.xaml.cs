@@ -33,9 +33,9 @@ namespace DemoTowerSql
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (e.Parameter is Int32)
+            if (e.Parameter is long)
             {
-                int id = (int)e.Parameter;
+                long id = (long)e.Parameter;
                 // display tower with this id
                 tower = databaseHandler.GetTower(id);
                 if (tower != null)

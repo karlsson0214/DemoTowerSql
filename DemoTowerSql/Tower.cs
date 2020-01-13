@@ -12,15 +12,15 @@ namespace DemoTowerSql
     class Tower
     {
         // primary key in the database
-        private int id;
+        private long id;
         private String name;
-        private int height;
+        private long height;
 
         /// <summary>
         /// Create a tower with the specified id.
         /// </summary>
         /// <param name="id"></param>
-        public Tower(int id)
+        public Tower(long id)
         {
             this.id = id;
             name = "";
@@ -30,7 +30,7 @@ namespace DemoTowerSql
         /// <summary>
         /// Read the id of this tower.
         /// </summary>
-        public int Id
+        public long Id
         {
             get
             {
@@ -56,7 +56,7 @@ namespace DemoTowerSql
         /// <summary>
         /// Get or set the height of the tower.
         /// </summary>
-        public int Height
+        public long Height
         {
             get
             {

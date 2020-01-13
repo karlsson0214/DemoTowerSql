@@ -45,8 +45,7 @@ namespace DemoTowerSql
             if (NumberOfTowers() == 0)
             {
                 AddSomeTowers();
-            }
-           
+            } 
         }
         
         /// <summary>
@@ -100,22 +99,18 @@ namespace DemoTowerSql
                 // add each tower to the list
                 while (query.Read())
                 {
-                    if (int.TryParse(query.GetString(0), out int id))
-                    {
-                        Tower tower = new Tower(id);
-                        tower.Name = query.GetString(1);
-                        if (int.TryParse(query.GetString(2), out int height))
-                        {
-                            tower.Height = height;
-                        }
-                        towers.Add(tower);
-                    } 
                     
+                    long id = (long)query["id"];
+                    Tower tower = new Tower(id);
+                    tower.Name = (String)query["name"];
+                    if (query["height"] != null)
+                    {
+                        tower.Height = (long)query["height"];
+                    }
+                    towers.Add(tower);
                 }
-
                 db.Close();
             }
-
             return towers;
         }
 
@@ -124,7 +119,7 @@ namespace DemoTowerSql
         /// </summary>
         /// <param name="id"></param>
         /// <returns>Returns the tower with the selected id if it exists, otherwise null.</returns>
-        public Tower GetTower(int id)
+        public Tower GetTower(long id)
         {
             Tower tower = null;
             string dbpath = Path.Combine(ApplicationData.Current.LocalFolder.Path, dbName);
@@ -146,9 +141,11 @@ namespace DemoTowerSql
                 if (query.Read())
                 {
                     tower = new Tower(id);
-                    tower.Name = query.GetString(1);
-                    int height = int.Parse(query.GetString(2));
-                    tower.Height = height;
+                    tower.Name = (string)query["name"];
+                    if (query["height"] != null)
+                    {
+                        tower.Height = (long)query["height"];
+                    }
                 }
                 
                 db.Close();
