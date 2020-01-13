@@ -109,7 +109,8 @@ namespace DemoTowerSql
                             tower.Height = height;
                         }
                         towers.Add(tower);
-                    }  
+                    } 
+                    
                 }
 
                 db.Close();
