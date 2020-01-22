@@ -9,10 +9,16 @@ using Windows.Storage;
 
 namespace DemoTowerSql
 {
-    class DatabaseHandler
+    public class DatabaseHandler
     {
         // name of database file
         private string dbName = "sqlite.db";
+
+        // column names
+        private string id = "id";
+        private string name = "name";
+        private string height = "height";
+
 
         /// <summary>
         /// Create database if not exists.
