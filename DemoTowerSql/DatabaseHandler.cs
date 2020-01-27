@@ -14,7 +14,8 @@ namespace DemoTowerSql
     class DatabaseHandler
     {
         // connection string to database
-        private String connectionString = "server=127.0.0.1;user id=user;password=pass;database=my_database";
+        //private String connectionString = "server=127.0.0.1;user id=user;password=pass;database=my_database";
+        private String connectionString = "server=127.0.0.1;user id=root;password=;database=my_database";
         private MySqlConnection db;
 
         public DatabaseHandler()
