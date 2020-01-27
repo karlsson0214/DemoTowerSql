@@ -1,4 +1,5 @@
 ﻿
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -12,8 +13,14 @@ namespace DemoTowerSql
 {
     class DatabaseHandler
     {
-        // name of database file
-        private string dbName = "sqlite.db";
+        // connection string to database
+        private String connectionString = "server=127.0.0.1;user id=user;password=pass;database=my_database";
+        private MySqlConnection db;
+
+        public DatabaseHandler()
+        {
+            db = new MySqlConnection(connectionString);
+        }
 
         /// <summary>
         /// Create database if not exists.
@@ -24,20 +31,16 @@ namespace DemoTowerSql
         /// </summary>
         public async void InitializeDatabase()
         {
-            //await ApplicationData.Current.LocalFolder.CreateFileAsync(dbName, CreationCollisionOption.OpenIfExists);
-            //string dbpath = Path.Combine(ApplicationData.Current.LocalFolder.Path, dbName);
-            // using reference: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/using-statement
-            SqlConnection db =
-               new SqlConnection("server=(localdb)\\MSSQLLocalDB;database=tower;Trusted_Connection=true");
+
             
                 db.Open();
 
                 String tableCommand = "CREATE TABLE IF NOT " +
-                    "EXISTS tower (id INTEGER PRIMARY KEY AUTOINCREMENT , " +
+                    "EXISTS tower (id INTEGER PRIMARY KEY AUTO_INCREMENT , " +
                     "name VARCHAR(128) NOT NULL, " +
                     "height INT )";
 
-                SqlCommand createTable = new SqlCommand(tableCommand, db);
+                MySqlCommand createTable = new MySqlCommand(tableCommand, db);
 
                 var result = createTable.ExecuteReader();
 
@@ -57,11 +60,9 @@ namespace DemoTowerSql
         /// <param name="heightOfTower"></param>
         public void AddTower(string nameOfTower, int heightOfTower)
         {
-            SqlConnection db =
-              new SqlConnection("server=(localdb)\\MSSQLLocalDB;database=tower;Trusted_Connection=true");
             db.Open();
 
-                SqlCommand insertCommand = new SqlCommand();
+                MySqlCommand insertCommand = new MySqlCommand();
                 insertCommand.Connection = db;
 
                 // Use parameterized query to prevent SQL injection attacks
@@ -86,13 +87,11 @@ namespace DemoTowerSql
             //List<String> entries = new List<string>();
             List<Tower> towers = new List<Tower>();
 
-            SqlConnection db =
-              new SqlConnection("server=(localdb)\\MSSQLLocalDB;database=tower;Trusted_Connection=true");
             db.Open();
 
-                SqlCommand selectCommand = new SqlCommand("SELECT * from tower ORDER BY height DESC", db);
+                MySqlCommand selectCommand = new MySqlCommand("SELECT * from tower ORDER BY height DESC", db);
 
-                SqlDataReader query = selectCommand.ExecuteReader();
+                MySqlDataReader query = selectCommand.ExecuteReader();
 
                 // add each tower to the list
                 while (query.Read())
@@ -124,11 +123,9 @@ namespace DemoTowerSql
         public Tower GetTower(int id)
         {
             Tower tower = null;
-            SqlConnection db =
-              new SqlConnection("server=(localdb)\\MSSQLLocalDB;database=tower;Trusted_Connection=true");
             db.Open();
 
-                SqlCommand selectCommand = new SqlCommand();
+                MySqlCommand selectCommand = new MySqlCommand();
                 selectCommand.Connection = db;
 
                 // Use parameterized query to prevent SQL injection attacks
@@ -136,7 +133,7 @@ namespace DemoTowerSql
 
                 selectCommand.Parameters.AddWithValue("@id", id);
 
-                SqlDataReader query = selectCommand.ExecuteReader();
+                MySqlDataReader query = selectCommand.ExecuteReader();
 
                 if (query.Read())
                 {
@@ -158,12 +155,10 @@ namespace DemoTowerSql
         /// <param name="tower"></param>
         public void EditTower(Tower tower)
         {
-            string dbpath = Path.Combine(ApplicationData.Current.LocalFolder.Path, dbName);
-            SqlConnection db =
-              new SqlConnection("server=(localdb)\\MSSQLLocalDB;database=tower;Trusted_Connection=true");
+
             db.Open();
 
-                SqlCommand sqlCommand = new SqlCommand();
+                MySqlCommand sqlCommand = new MySqlCommand();
                 sqlCommand.Connection = db;
 
                 // Use parameterized query to prevent SQL injection attacks
@@ -185,12 +180,9 @@ namespace DemoTowerSql
         /// <param name="tower"></param>
         public void DeleteTower(Tower tower)
         {
-            string dbpath = Path.Combine(ApplicationData.Current.LocalFolder.Path, dbName);
-            SqlConnection db =
-              new SqlConnection("server=(localdb)\\MSSQLLocalDB;database=tower;Trusted_Connection=true");
             db.Open();
 
-                SqlCommand sqlCommand = new SqlCommand();
+                MySqlCommand sqlCommand = new MySqlCommand();
                 sqlCommand.Connection = db;
 
                 // Use parameterized query to prevent SQL injection attacks
@@ -220,23 +212,19 @@ namespace DemoTowerSql
         private int NumberOfTowers()
         {
             int count = 0;
-            string dbpath = Path.Combine(ApplicationData.Current.LocalFolder.Path, dbName);
-            SqlConnection db =
-              new SqlConnection("server=(localdb)\\MSSQLLocalDB;database=tower;Trusted_Connection=true");
             db.Open();
 
-                SqlCommand sqlCommand = new SqlCommand();
+                MySqlCommand sqlCommand = new MySqlCommand();
                 sqlCommand.Connection = db;
 
-                sqlCommand.CommandText = "SELECT COUNT (id) FROM tower";
-                SqlDataReader query = sqlCommand.ExecuteReader();
+                sqlCommand.CommandText = "SELECT COUNT(id) FROM tower";
+                MySqlDataReader query = sqlCommand.ExecuteReader();
                 if (query.Read())
                 {
                     count = int.Parse(query.GetString(0));
                 }
 
-                db.Close();
-            
+                db.Close();         
 
             return count;
         }
