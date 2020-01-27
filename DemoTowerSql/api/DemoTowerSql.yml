@@ -1,0 +1,46 @@
+### YamlMime:ManagedReference
+items:
+- uid: DemoTowerSql
+  commentId: N:DemoTowerSql
+  id: DemoTowerSql
+  children:
+  - DemoTowerSql.AddTowerPage
+  - DemoTowerSql.DeleteTowerPage
+  - DemoTowerSql.EditTowerPage
+  - DemoTowerSql.MainPage
+  - DemoTowerSql.Program
+  langs:
+  - csharp
+  - vb
+  name: DemoTowerSql
+  nameWithType: DemoTowerSql
+  fullName: DemoTowerSql
+  type: Namespace
+  assemblies:
+  - DemoTowerSql
+references:
+- uid: DemoTowerSql.AddTowerPage
+  commentId: T:DemoTowerSql.AddTowerPage
+  name: AddTowerPage
+  nameWithType: AddTowerPage
+  fullName: DemoTowerSql.AddTowerPage
+- uid: DemoTowerSql.DeleteTowerPage
+  commentId: T:DemoTowerSql.DeleteTowerPage
+  name: DeleteTowerPage
+  nameWithType: DeleteTowerPage
+  fullName: DemoTowerSql.DeleteTowerPage
+- uid: DemoTowerSql.EditTowerPage
+  commentId: T:DemoTowerSql.EditTowerPage
+  name: EditTowerPage
+  nameWithType: EditTowerPage
+  fullName: DemoTowerSql.EditTowerPage
+- uid: DemoTowerSql.MainPage
+  commentId: T:DemoTowerSql.MainPage
+  name: MainPage
+  nameWithType: MainPage
+  fullName: DemoTowerSql.MainPage
+- uid: DemoTowerSql.Program
+  commentId: T:DemoTowerSql.Program
+  name: Program
+  nameWithType: Program
+  fullName: DemoTowerSql.Program

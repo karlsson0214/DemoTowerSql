@@ -1,6 +1,7 @@
-﻿using Microsoft.Data.Sqlite;
+﻿
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -23,12 +24,12 @@ namespace DemoTowerSql
         /// </summary>
         public async void InitializeDatabase()
         {
-            await ApplicationData.Current.LocalFolder.CreateFileAsync(dbName, CreationCollisionOption.OpenIfExists);
-            string dbpath = Path.Combine(ApplicationData.Current.LocalFolder.Path, dbName);
+            //await ApplicationData.Current.LocalFolder.CreateFileAsync(dbName, CreationCollisionOption.OpenIfExists);
+            //string dbpath = Path.Combine(ApplicationData.Current.LocalFolder.Path, dbName);
             // using reference: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/using-statement
-            using (SqliteConnection db =
-               new SqliteConnection($"Filename={dbpath}"))
-            {
+            SqlConnection db =
+               new SqlConnection("server=(localdb)\\MSSQLLocalDB;database=tower;Trusted_Connection=true");
+            
                 db.Open();
 
                 String tableCommand = "CREATE TABLE IF NOT " +
@@ -36,12 +37,12 @@ namespace DemoTowerSql
                     "name VARCHAR(128) NOT NULL, " +
                     "height INT )";
 
-                SqliteCommand createTable = new SqliteCommand(tableCommand, db);
+                SqlCommand createTable = new SqlCommand(tableCommand, db);
 
                 var result = createTable.ExecuteReader();
 
                 db.Close();
-            }
+            
             if (NumberOfTowers() == 0)
             {
                 AddSomeTowers();
@@ -56,13 +57,11 @@ namespace DemoTowerSql
         /// <param name="heightOfTower"></param>
         public void AddTower(string nameOfTower, int heightOfTower)
         {
-            string dbpath = Path.Combine(ApplicationData.Current.LocalFolder.Path, dbName);
-            using (SqliteConnection db =
-              new SqliteConnection($"Filename={dbpath}"))
-            {
-                db.Open();
+            SqlConnection db =
+              new SqlConnection("server=(localdb)\\MSSQLLocalDB;database=tower;Trusted_Connection=true");
+            db.Open();
 
-                SqliteCommand insertCommand = new SqliteCommand();
+                SqlCommand insertCommand = new SqlCommand();
                 insertCommand.Connection = db;
 
                 // Use parameterized query to prevent SQL injection attacks
@@ -74,7 +73,7 @@ namespace DemoTowerSql
                 insertCommand.ExecuteReader();
 
                 db.Close();
-            }
+            
 
         }
 
@@ -87,15 +86,13 @@ namespace DemoTowerSql
             //List<String> entries = new List<string>();
             List<Tower> towers = new List<Tower>();
 
-            string dbpath = Path.Combine(ApplicationData.Current.LocalFolder.Path, dbName);
-            using (SqliteConnection db =
-               new SqliteConnection($"Filename={dbpath}"))
-            {
-                db.Open();
+            SqlConnection db =
+              new SqlConnection("server=(localdb)\\MSSQLLocalDB;database=tower;Trusted_Connection=true");
+            db.Open();
 
-                SqliteCommand selectCommand = new SqliteCommand("SELECT * from tower ORDER BY height DESC", db);
+                SqlCommand selectCommand = new SqlCommand("SELECT * from tower ORDER BY height DESC", db);
 
-                SqliteDataReader query = selectCommand.ExecuteReader();
+                SqlDataReader query = selectCommand.ExecuteReader();
 
                 // add each tower to the list
                 while (query.Read())
@@ -114,7 +111,7 @@ namespace DemoTowerSql
                 }
 
                 db.Close();
-            }
+            
 
             return towers;
         }
@@ -127,13 +124,11 @@ namespace DemoTowerSql
         public Tower GetTower(int id)
         {
             Tower tower = null;
-            string dbpath = Path.Combine(ApplicationData.Current.LocalFolder.Path, dbName);
-            using (SqliteConnection db =
-              new SqliteConnection($"Filename={dbpath}"))
-            {
-                db.Open();
+            SqlConnection db =
+              new SqlConnection("server=(localdb)\\MSSQLLocalDB;database=tower;Trusted_Connection=true");
+            db.Open();
 
-                SqliteCommand selectCommand = new SqliteCommand();
+                SqlCommand selectCommand = new SqlCommand();
                 selectCommand.Connection = db;
 
                 // Use parameterized query to prevent SQL injection attacks
@@ -141,7 +136,7 @@ namespace DemoTowerSql
 
                 selectCommand.Parameters.AddWithValue("@id", id);
 
-                SqliteDataReader query = selectCommand.ExecuteReader();
+                SqlDataReader query = selectCommand.ExecuteReader();
 
                 if (query.Read())
                 {
@@ -152,7 +147,7 @@ namespace DemoTowerSql
                 }
                 
                 db.Close();
-            }
+            
 
             return tower;
         }
@@ -164,12 +159,11 @@ namespace DemoTowerSql
         public void EditTower(Tower tower)
         {
             string dbpath = Path.Combine(ApplicationData.Current.LocalFolder.Path, dbName);
-            using (SqliteConnection db =
-              new SqliteConnection($"Filename={dbpath}"))
-            {
-                db.Open();
+            SqlConnection db =
+              new SqlConnection("server=(localdb)\\MSSQLLocalDB;database=tower;Trusted_Connection=true");
+            db.Open();
 
-                SqliteCommand sqlCommand = new SqliteCommand();
+                SqlCommand sqlCommand = new SqlCommand();
                 sqlCommand.Connection = db;
 
                 // Use parameterized query to prevent SQL injection attacks
@@ -182,7 +176,7 @@ namespace DemoTowerSql
                 sqlCommand.ExecuteReader();
 
                 db.Close();
-            }
+            
         }
 
         /// <summary>
@@ -192,12 +186,11 @@ namespace DemoTowerSql
         public void DeleteTower(Tower tower)
         {
             string dbpath = Path.Combine(ApplicationData.Current.LocalFolder.Path, dbName);
-            using (SqliteConnection db =
-              new SqliteConnection($"Filename={dbpath}"))
-            {
-                db.Open();
+            SqlConnection db =
+              new SqlConnection("server=(localdb)\\MSSQLLocalDB;database=tower;Trusted_Connection=true");
+            db.Open();
 
-                SqliteCommand sqlCommand = new SqliteCommand();
+                SqlCommand sqlCommand = new SqlCommand();
                 sqlCommand.Connection = db;
 
                 // Use parameterized query to prevent SQL injection attacks
@@ -208,7 +201,7 @@ namespace DemoTowerSql
                 sqlCommand.ExecuteReader();
 
                 db.Close();
-            }
+            
         }
 
         // Add some startup towers.
@@ -228,23 +221,22 @@ namespace DemoTowerSql
         {
             int count = 0;
             string dbpath = Path.Combine(ApplicationData.Current.LocalFolder.Path, dbName);
-            using (SqliteConnection db =
-              new SqliteConnection($"Filename={dbpath}"))
-            {
-                db.Open();
+            SqlConnection db =
+              new SqlConnection("server=(localdb)\\MSSQLLocalDB;database=tower;Trusted_Connection=true");
+            db.Open();
 
-                SqliteCommand sqlCommand = new SqliteCommand();
+                SqlCommand sqlCommand = new SqlCommand();
                 sqlCommand.Connection = db;
 
                 sqlCommand.CommandText = "SELECT COUNT (id) FROM tower";
-                SqliteDataReader query = sqlCommand.ExecuteReader();
+                SqlDataReader query = sqlCommand.ExecuteReader();
                 if (query.Read())
                 {
                     count = int.Parse(query.GetString(0));
                 }
 
                 db.Close();
-            }
+            
 
             return count;
         }

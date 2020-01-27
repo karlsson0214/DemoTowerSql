@@ -1,0 +1,18 @@
+{
+  "DemoTowerSql": "DemoTowerSql.yml",
+  "DemoTowerSql.AddTowerPage": "DemoTowerSql.AddTowerPage.yml",
+  "DemoTowerSql.AddTowerPage.#ctor": "DemoTowerSql.AddTowerPage.yml",
+  "DemoTowerSql.AddTowerPage.InitializeComponent": "DemoTowerSql.AddTowerPage.yml",
+  "DemoTowerSql.DeleteTowerPage": "DemoTowerSql.DeleteTowerPage.yml",
+  "DemoTowerSql.DeleteTowerPage.#ctor": "DemoTowerSql.DeleteTowerPage.yml",
+  "DemoTowerSql.DeleteTowerPage.InitializeComponent": "DemoTowerSql.DeleteTowerPage.yml",
+  "DemoTowerSql.DeleteTowerPage.OnNavigatedTo(Windows.UI.Xaml.Navigation.NavigationEventArgs)": "DemoTowerSql.DeleteTowerPage.yml",
+  "DemoTowerSql.EditTowerPage": "DemoTowerSql.EditTowerPage.yml",
+  "DemoTowerSql.EditTowerPage.#ctor": "DemoTowerSql.EditTowerPage.yml",
+  "DemoTowerSql.EditTowerPage.InitializeComponent": "DemoTowerSql.EditTowerPage.yml",
+  "DemoTowerSql.EditTowerPage.OnNavigatedTo(Windows.UI.Xaml.Navigation.NavigationEventArgs)": "DemoTowerSql.EditTowerPage.yml",
+  "DemoTowerSql.MainPage": "DemoTowerSql.MainPage.yml",
+  "DemoTowerSql.MainPage.#ctor": "DemoTowerSql.MainPage.yml",
+  "DemoTowerSql.MainPage.InitializeComponent": "DemoTowerSql.MainPage.yml",
+  "DemoTowerSql.Program": "DemoTowerSql.Program.yml"
+}
