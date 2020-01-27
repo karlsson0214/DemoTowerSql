@@ -2,6 +2,7 @@
 using MySql.Data;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -33,8 +34,8 @@ namespace DemoTowerSql
             await ApplicationData.Current.LocalFolder.CreateFileAsync(dbName, CreationCollisionOption.OpenIfExists);
             string dbpath = Path.Combine(ApplicationData.Current.LocalFolder.Path, dbName);
             // using reference: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/using-statement
-            using (SqliteConnection db =
-               new SqliteConnection($"Filename={dbpath}"))
+            using (SqlConnection db =
+               new SqlConnection("server=10.xxx.xx.xxx;user id=foo;password=bar;database=baz")
             {
                 db.Open();
 
