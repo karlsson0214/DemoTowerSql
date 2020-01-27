@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.Sqlite;
+﻿//using Microsoft.Data.Sqlite;
+using MySql.Data;
 using System;
 using System.Collections.Generic;
 using System.IO;
